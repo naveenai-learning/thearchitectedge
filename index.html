@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Architect Edge — 10 AI Secrets Nobody Told You</title>
   <meta name="description" content="Learn how AI actually works through an interactive game and detailed blog. 10 secrets about context windows, hallucinations, temperature, and more.">
   <meta property="og:title" content="The Architect Edge — 10 AI Secrets Nobody Told You">
@@ -21,7 +21,8 @@
       --font: 'Inter', -apple-system, sans-serif;
       --mono: 'JetBrains Mono', 'Consolas', monospace;
     }
-    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased; }
+    img { max-width: 100%; height: auto; display: block; }
     a { color: var(--blue); text-decoration: none; }
     a:hover { text-decoration: underline; }
     .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
@@ -31,7 +32,7 @@
     .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; max-width: 720px; margin: 0 auto; }
     .nav-brand { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--blue); letter-spacing: 0.1em; }
     .nav-links { display: flex; gap: 4px; }
-    .nav-link { padding: 6px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--text-dim); transition: all 0.2s; }
+    .nav-link { padding: 10px 14px; min-height: 44px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; background: transparent; color: var(--text-dim); transition: all 0.2s; display: inline-flex; align-items: center; }
     .nav-link:hover, .nav-link.active { color: var(--text); background: var(--surface2); }
 
     /* HERO */
@@ -59,7 +60,7 @@
     /* BLOG POST */
     .post { padding: 24px 0 60px; display: none; }
     .post.active { display: block; }
-    .post-back { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); font-size: 13px; cursor: pointer; margin-bottom: 20px; }
+    .post-back { display: inline-flex; align-items: center; gap: 6px; padding: 10px 14px; min-height: 44px; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); color: var(--text-dim); font-size: 13px; cursor: pointer; margin-bottom: 20px; }
     .post-back:hover { color: var(--text); border-color: var(--blue); text-decoration: none; }
     .post-header { margin-bottom: 30px; }
     .post-emoji { font-size: 48px; margin-bottom: 8px; }
@@ -138,6 +139,16 @@
       .hero h1 { font-size: 28px; }
       .post h1 { font-size: 22px; }
       .hero { padding: 40px 16px 30px; }
+      .nav-inner { padding: 8px 12px; }
+      .nav-brand { font-size: 10px; }
+      .blog-card { flex-wrap: wrap; }
+      .post-nav { flex-direction: column; }
+      .concept { padding: 14px 16px; }
+    }
+    @media (max-width: 360px) {
+      .nav-links { gap: 2px; }
+      .nav-link { padding: 10px 8px; font-size: 12px; }
+      .hero h1 { font-size: 24px; }
     }
   </style>
 </head>
@@ -513,7 +524,7 @@ function renderGamePanel(gs, lv) {
     ${hpBars(gs, lv)}
     <div style="font-family:var(--mono);font-size:10px;font-weight:700;color:var(--gold);margin-bottom:6px">⚔️ BATTLE QUESTION</div>
     <p style="font-size:14px;color:#ddd;margin:0 0 12px;line-height:1.5">${lv.q}</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px">
       ${lv.opts.map((o,i) => {
         let cls = '';
         if (gs.selectedAns !== null) { if (i===lv.correct) cls='correct'; else if (i===gs.selectedAns) cls='wrong'; }
