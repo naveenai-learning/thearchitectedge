@@ -154,13 +154,14 @@
     /* BACK BUTTON */
     .back-btn {
       position: fixed;
-      top: 76px;
-      left: 16px;
-      z-index: 90;
+      bottom: 24px;
+      left: 20px;
+      top: auto;
+      z-index: 9999;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 8px 14px;
+      padding: 10px 16px;
       min-height: 44px;
       border-radius: 8px;
       background: var(--surface);
@@ -172,7 +173,7 @@
       letter-spacing: 0.05em;
       cursor: pointer;
       transition: color 0.2s, border-color 0.2s, background 0.2s;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.6);
     }
     .back-btn:hover {
       color: var(--blue);
@@ -180,7 +181,7 @@
       background: var(--surface2);
     }
     @media (max-width: 480px) {
-      .back-btn { top: 72px; left: 8px; padding: 8px 10px; font-size: 11px; }
+      .back-btn { bottom: 20px; left: 12px; padding: 10px 12px; font-size: 11px; }
     }
   </style>
 </head>
