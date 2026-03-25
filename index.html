@@ -154,7 +154,7 @@
     /* BACK BUTTON */
     .back-btn {
       position: fixed;
-      top: 64px;
+      top: 76px;
       left: 16px;
       z-index: 90;
       display: inline-flex;
@@ -180,14 +180,14 @@
       background: var(--surface2);
     }
     @media (max-width: 480px) {
-      .back-btn { top: 60px; left: 8px; padding: 8px 10px; font-size: 11px; }
+      .back-btn { top: 72px; left: 8px; padding: 8px 10px; font-size: 11px; }
     }
   </style>
 </head>
 <body>
 
 <!-- BACK BUTTON -->
-<button class="back-btn" onclick="history.back()" aria-label="Go back">&#8592; BACK</button>
+<button id="back-btn" class="back-btn" onclick="goBack()" aria-label="Go back" style="display:none">&#8592; BACK</button>
 
 <!-- NAV -->
 <nav class="nav">
@@ -430,9 +430,49 @@ function renderPosts() {
 }
 
 // ═══════════════════════════════════════════════════════════
+// INTERNAL NAVIGATION HISTORY
+// ═══════════════════════════════════════════════════════════
+const _navHistory = [];
+let _recordNav = true;
+
+function _currentView() {
+  if (document.getElementById('game-section').classList.contains('active')) return { view: 'game' };
+  const activePost = document.querySelector('.post.active');
+  if (activePost) return { view: 'post', id: activePost.id.replace('post-', '') };
+  return { view: 'blog-home' };
+}
+
+function _pushNav() {
+  if (_recordNav) _navHistory.push(_currentView());
+  _updateBackBtn();
+}
+
+function _updateBackBtn() {
+  const btn = document.getElementById('back-btn');
+  if (btn) btn.style.display = _navHistory.length > 0 ? 'inline-flex' : 'none';
+}
+
+function goBack() {
+  if (_navHistory.length === 0) return;
+  _recordNav = false;
+  const prev = _navHistory.pop();
+  if (prev.view === 'game') {
+    showSection('game');
+  } else if (prev.view === 'post') {
+    showSection('blog');
+    showPost(prev.id);
+  } else {
+    showSection('blog');
+  }
+  _recordNav = true;
+  _updateBackBtn();
+}
+
+// ═══════════════════════════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════════════════════════
 function showSection(section) {
+  _pushNav();
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   if (section === 'blog') {
     document.getElementById('blog-section').style.display = 'block';
@@ -451,6 +491,7 @@ function showSection(section) {
 }
 
 function showPost(id) {
+  _pushNav();
   document.getElementById('blog-home').style.display = 'none';
   document.getElementById('blog-list').style.display = 'none';
   document.querySelectorAll('.post').forEach(p => p.classList.remove('active'));
